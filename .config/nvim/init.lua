@@ -121,8 +121,13 @@ end)
 -- Enable break indent
 vim.opt.breakindent = true
 
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.softtabstop = 4
+
 -- Save undo history
-vim.opt.undofile = true
+vim.opt.undofile = false
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -709,8 +714,8 @@ require('lazy').setup({
         python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         css = { 'prettierd', 'prettier', stop_after_first = true },
@@ -719,6 +724,14 @@ require('lazy').setup({
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
         go = { 'prettierd', 'prettier', stop_after_first = true },
+      },
+      formatters = {
+        prettier = {
+          prepend_args = { '--use-tabs', 'false', '--tab-width', '4', '--print-width', '120' },
+        },
+        prettierd = {
+          prepend_args = { '--use-tabs', 'false', '--tab-width', '4', '--print-width', '120' },
+        },
       },
     },
   },
@@ -973,12 +986,12 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
