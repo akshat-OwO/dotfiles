@@ -8,10 +8,20 @@ return {
 		end,
 	},
 	{
+		"numToStr/Comment.nvim",
+		opts = {},
+		config = function()
+			require("Comment").setup({
+				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+			})
+		end,
+	},
+	{ "JoosepAlviste/nvim-ts-context-commentstring", opts = { enable_autocmd = false } },
+	{
 		"mbbill/undotree",
 
 		config = function()
-			vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Open undotree"})
+			vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Open undotree" })
 		end,
 	},
 	"tpope/vim-sleuth",

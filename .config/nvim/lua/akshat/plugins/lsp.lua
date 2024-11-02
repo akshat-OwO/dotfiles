@@ -106,8 +106,10 @@ return {
         'html-lsp',
         'tailwindcss-language-server',
         'gopls',
+        "eslint-lsp",
         'eslint_d',
         'prettier',
+        'prettierd',
         'stylua',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
