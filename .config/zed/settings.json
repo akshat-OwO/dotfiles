@@ -15,7 +15,7 @@
     "assistant": {
         "default_model": {
             "provider": "zed.dev",
-            "model": "claude-3-5-sonnet-20240620"
+            "model": "claude-3-5-sonnet-latest"
         },
         "version": "2"
     },
@@ -24,7 +24,7 @@
     "theme": {
         "mode": "system",
         "light": "One Light",
-        "dark": "Andromeda"
+        "dark": "Tokyo Night"
     },
     "tab_size": 4,
     "indent_guides": {
@@ -34,15 +34,21 @@
     "format_on_save": "off",
     "soft_wrap": "editor_width",
     "lsp": {
-        "pyright": {
-            "settings": {
-                "python": {
-                    "pythonPath": "env/bin/python"
-                }
-            }
+        // "pyright": {
+        //     "settings": {
+        //         "python": {
+        //             "pythonPath": "env/bin/python"
+        //         }
+        //     }
+        // }
+    },
+    "languages": {
+        "Python": {
+            "language_servers": ["ruff", "!pylsp", "pyright"]
         }
     },
     "outline_panel": {
         "auto_fold_dirs": false
-    }
+    },
+    "vertical_scroll_margin": 8
 }
