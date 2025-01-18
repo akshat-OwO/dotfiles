@@ -1,9 +1,17 @@
 return {
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	priority = 1000,
+	-- 	init = function()
+	-- 		vim.cmd.colorscheme("tokyonight-night")
+	-- 		vim.cmd.hi("Comment gui=none")
+	-- 	end,
+	-- },
 	{
-		"folke/tokyonight.nvim",
+		"datsfilipe/vesper.nvim",
 		priority = 1000,
 		init = function()
-			vim.cmd.colorscheme("tokyonight-night")
+			vim.cmd.colorscheme("vesper")
 			vim.cmd.hi("Comment gui=none")
 		end,
 	},
@@ -402,16 +410,16 @@ return {
 	-- 	},
 	-- 	opts = {
 	-- 		options = {
- --      -- stylua: ignore
- --      close_command = function(n) 
- --        require('vim.diagnostic').hide()
- --        vim.api.nvim_buf_delete(n, { force = false })
- --      end,
- --      -- stylua: ignore
- --      right_mouse_command = function(n)
- --        require('vim.diagnostic').hide()
- --        vim.api.nvim_buf_delete(n, { force = false })
- --      end,
+	--      -- stylua: ignore
+	--      close_command = function(n)
+	--        require('vim.diagnostic').hide()
+	--        vim.api.nvim_buf_delete(n, { force = false })
+	--      end,
+	--      -- stylua: ignore
+	--      right_mouse_command = function(n)
+	--        require('vim.diagnostic').hide()
+	--        vim.api.nvim_buf_delete(n, { force = false })
+	--      end,
 	-- 			diagnostics = "nvim_lsp",
 	-- 			always_show_bufferline = false,
 	-- 			diagnostics_indicator = function(_, _, diag)
