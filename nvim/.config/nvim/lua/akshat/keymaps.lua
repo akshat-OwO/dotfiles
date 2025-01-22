@@ -1,7 +1,8 @@
 -- Place all your custom keymaps here
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", { desc = "Open File Explorer" })
+vim.keymap.set("n", "<leader>e", "<CMD>Oil --float<CR>", { desc = "Open Floating File Explorer" })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
