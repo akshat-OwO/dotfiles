@@ -85,7 +85,6 @@ return {
             },
           },
         },
-        ts_ls = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -95,13 +94,13 @@ return {
             },
           },
         },
+        zls = {},
       }
 
       require('mason').setup()
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'typescript-language-server',
         'css-lsp',
         'html-lsp',
         'tailwindcss-language-server',
@@ -111,6 +110,7 @@ return {
         'prettier',
         'prettierd',
         'stylua',
+        'zls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -125,4 +125,32 @@ return {
       }
     end,
   },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    config = function ()
+      require("typescript-tools").setup {
+      settings = {
+          separate_diagnostic_server = true,
+          publish_diagnostic_on = "insert_leave",
+          expose_as_code_action = "all",
+          tsserver_path = nil,
+          tsserver_plugins = {},
+          tsserver_max_memory = "auto",
+          tsserver_format_options = {},
+          tsserver_file_preferences = {},
+          tsserver_locale = "en",
+          complete_function_calls = false,
+          include_completions_with_insert_text = true,
+          code_lens = "off",
+          disable_member_code_lens = true,
+          jsx_close_tag = {
+              enable = false,
+              filetypes = { "javascriptreact", "typescriptreact" },
+          }
+        },
+      }
+    end
+  }
 }

@@ -1,70 +1,64 @@
 return {
     {
-        "sbdchd/neoformat",
+        "stevearc/conform.nvim",
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
-            vim.g.neoformat_basic_format_align = 1
-            vim.g.neoformat_basic_format_retab = 1
-            vim.g.neoformat_basic_format_trim = 1
+            local conform = require("conform")
 
-            vim.g.neoformat_try_node_exe = 1
-
-            vim.g.neoformat_enabled_javascript = { 'prettier' }
-            vim.g.neoformat_enabled_typescript = { 'prettier' }
-            vim.g.neoformat_enabled_javascriptreact = { 'prettier' }
-            vim.g.neoformat_enabled_typescriptreact = { 'prettier' }
-            vim.g.neoformat_enabled_python = { 'black', 'isort' }
-            vim.g.neoformat_enabled_lua = { 'stylua' }
-            vim.g.neoformat_enabled_go = { 'gofmt' }
-            vim.g.neoformat_enabled_css = { 'prettier' }
-            vim.g.neoformat_enabled_scss = { 'prettier' }
-            vim.g.neoformat_enabled_html = { 'prettier' }
-            vim.g.neoformat_enabled_json = { 'prettier' }
-            vim.g.neoformat_enabled_yaml = { 'prettier' }
-            vim.g.neoformat_enabled_markdown = { 'prettier' }
-
-            -- Prettier configuration
-            vim.g.neoformat_javascript_prettier = {
-                exe = 'prettier',
-                args = {
-                    '--stdin-filepath',
-                    '"%:p"',
-                    '--tab-width',
-                    '4',
-                    '--print-width',
-                    '120',
-                    '--use-tabs',
-                    'false'
+            conform.setup({
+                formatters_by_ft = {
+                    javascript = { "prettier" },
+                    typescript = { "prettier" },
+                    javascriptreact = { "prettier" },
+                    typescriptreact = { "prettier" },
+                    css = { "prettier" },
+                    html = { "prettier" },
+                    json = { "prettier" },
+                    yaml = { "prettier" },
+                    markdown = { "prettier" },
+                    graphql = { "prettier" },
+                    lua = { "stylua" },
+                    python = { "isort", "black" },
+                    go = { "gofmt" },
                 },
-                stdin = 1,
-            }
-
-            -- Use the same prettier config for other filetypes
-            vim.g.neoformat_typescript_prettier = vim.g.neoformat_javascript_prettier
-            vim.g.neoformat_javascriptreact_prettier = vim.g.neoformat_javascript_prettier
-            vim.g.neoformat_typescriptreact_prettier = vim.g.neoformat_javascript_prettier
-            vim.g.neoformat_css_prettier = vim.g.neoformat_javascript_prettier
-            vim.g.neoformat_html_prettier = vim.g.neoformat_javascript_prettier
-            vim.g.neoformat_json_prettier = vim.g.neoformat_javascript_prettier
-            vim.g.neoformat_yaml_prettier = vim.g.neoformat_javascript_prettier
-            vim.g.neoformat_markdown_prettier = vim.g.neoformat_javascript_prettier
-
-            -- Python configuration
-            vim.g.neoformat_python_black = {
-                exe = 'black',
-                args = { '--quiet', '-' },
-                stdin = 1,
-            }
-
-            -- Format on save (optional)
-            -- vim.api.nvim_create_autocmd("BufWritePre", {
-            --     pattern = "*",
-            --     callback = function()
-            --         vim.cmd("Neoformat")
-            --     end,
-            -- })
+                formatters = {
+                    prettier = {
+                        command = "prettier",
+                        args = {
+                            "--stdin-filepath",
+                            "$FILENAME",
+                            "--tab-width",
+                            "4",
+                            "--print-width",
+                            "120",
+                            "--use-tabs",
+                            "false",
+                            "--trailing-comma",
+                            "all",
+                            "--semi",
+                            "true",
+                        },
+                        stdin = true,
+                        cwd = function()
+                            return vim.fs.dirname(vim.fs.find({ ".prettierrc", ".prettierrc.json", ".prettierrc.js" }, { upward = true })[1])
+                        end,
+                    },
+                },
+                format_on_save = {
+                    lsp_fallback = true,
+                    async = false,
+                    timeout_ms = 500,
+                },
+            })
 
             -- Keymapping for manual formatting
-            vim.keymap.set("n", "<leader>f", ":Neoformat<CR>", { desc = "[F]ormat buffer", silent = true })
+            vim.keymap.set({ "n", "v" }, "<leader>f", function()
+                conform.format({
+                    lsp_fallback = true,
+                    async = false,
+                    timeout_ms = 500,
+                })
+            end, { desc = "[F]ormat file or range (in visual mode)", silent = true })
         end,
     },
 }
