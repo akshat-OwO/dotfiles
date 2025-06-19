@@ -18,7 +18,6 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
 zinit snippet OMZP::git
@@ -87,3 +86,4 @@ esac
 export PATH=$PATH:$HOME/go/bin
 
 alias tmux='tmux -u'
+alias zed='DRI_PRIME=1 zed'
