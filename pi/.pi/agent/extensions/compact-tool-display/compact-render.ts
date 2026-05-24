@@ -188,6 +188,9 @@ const COMPACT_CALL_FORMATTERS = {
 
 export type CompactToolName = keyof typeof COMPACT_CALL_FORMATTERS;
 
+/** Tools whose collapsed result row replaces the call row (pi uses separate render slots). */
+const INLINE_RESULT_TOOLS = new Set<CompactToolName>(["grep", "find", "bash", "ls"]);
+
 const COMPACT_PREVIEW_MAX_LINES = 8;
 const COMPACT_DIFF_PREVIEW_LINE_MAX_CHARS = 240;
 const COMPACT_DIFF_BLOCK_BG_RGB = { r: 0x14, g: 0x14, b: 0x14 } as const;
@@ -482,6 +485,16 @@ export function renderCompactToolCall(
 	if ((toolName === "edit" || toolName === "write") && !context.isPartial) {
 		return new Text("", 0, 0);
 	}
+	if (INLINE_RESULT_TOOLS.has(toolName) && !context.isPartial) {
+		return new Text("", 0, 0);
+	}
+	if (toolName === "bash") {
+		const state = context.state as { startedAt?: number; endedAt?: number };
+		if (context.executionStarted && state.startedAt === undefined) {
+			state.startedAt = Date.now();
+			state.endedAt = undefined;
+		}
+	}
 	const text = asTextComponent(context.lastComponent);
 	text.setText(withCompactPadding(COMPACT_CALL_FORMATTERS[toolName](args, theme, context.cwd)));
 	return text;
@@ -504,6 +517,10 @@ export function renderCompactToolResult(
 	}
 
 	const text = asTextComponent(context.lastComponent);
+	if (INLINE_RESULT_TOOLS.has(toolName) && options.isPartial) {
+		text.setText("");
+		return text;
+	}
 	if (!options.expanded && !isError) {
 		const hasImage = result.content.some((entry) => entry.type === "image");
 		if (hasImage) {
@@ -518,6 +535,8 @@ export function renderCompactToolResult(
 				return text;
 			}
 			if (toolName === "bash") {
+				const state = context.state as { startedAt?: number; endedAt?: number };
+				state.endedAt ??= Date.now();
 				const durationMs = getCompactBashDurationMs(context);
 				text.setText(
 					withCompactPadding(
