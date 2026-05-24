@@ -1,0 +1,12 @@
+{
+  "lastChangelogVersion": "0.75.5",
+  "defaultProvider": "cursor",
+  "defaultModel": "composer-2.5-fast",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": false,
+  "quietStartup": false,
+  "steeringMode": "one-at-a-time",
+  "packages": [
+    "git:github.com/akshat-OwO/pi-cursor-sdk@main"
+  ]
+}
